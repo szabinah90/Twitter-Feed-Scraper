@@ -1,0 +1,27 @@
+{
+  "doc": {
+    "properties": {
+      "created_at": {
+        "type": "date"
+      },
+      "tweet_id": {
+        "type": "text"
+      },
+      "text": {
+        "type": "text"
+      },
+      "hashtags": {
+        "type": "keyword"
+      },
+      "screen_name": {
+        "type": "keyword"
+      },
+      "username": {
+        "type": "text"
+      }
+      "location": {
+        "type": "text"
+      }
+    }
+  }
+}

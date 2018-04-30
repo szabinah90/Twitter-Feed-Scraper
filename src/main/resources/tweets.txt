@@ -1,0 +1,3 @@
+Automated tweet.
+This tweet was posted by an application and was read from a file.
+Here we go again.
