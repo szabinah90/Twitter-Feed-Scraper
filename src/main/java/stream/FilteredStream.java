@@ -1,15 +1,12 @@
 package stream;
 
+import com.google.api.client.util.Preconditions;
 import credentials.Credentials;
 import credentials.ParseCredentials;
-import posting.Tweet;
+import googledrive.DownloadPictures;
+import googledrive.GoogleDrive;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
-import users.User;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class FilteredStream {
 
@@ -29,8 +26,21 @@ public class FilteredStream {
 
         twitterStream.addListener(new StatusListener() {
             int counter = 1;
+            int picCounter = 1;
+
+            GoogleDrive googleDrive = new GoogleDrive();
+
             @Override
             public void onStatus(Status status) {
+                DownloadPictures downloadPictures = new DownloadPictures();
+                MediaEntity[] mediaEntities = status.getMediaEntities();
+                for (MediaEntity mediaEntity : mediaEntities) {
+                    if (mediaEntity.getType().equals("photo")) {
+                        downloadPictures.download(mediaEntity.getMediaURL());
+                        googleDrive.executeUpload();
+                        picCounter++;
+                    }
+                }
                 System.out.println("[" + counter + "] " + status.getCreatedAt() + ": @" + status.getUser().getScreenName() + " - " + status.getText());
                 counter++;
             }
@@ -63,6 +73,7 @@ public class FilteredStream {
 
         FilterQuery tweetFilterQuery = new FilterQuery();
         tweetFilterQuery.track(filter);
+        tweetFilterQuery.language("en");
         twitterStream.filter(tweetFilterQuery);
     }
 }
