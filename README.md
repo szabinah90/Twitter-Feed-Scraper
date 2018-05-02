@@ -10,6 +10,8 @@ Functionalities:
 
 (3) Listening in the public live feed.
 
+(4) Search for a keyword and upload the images from those tweets to Google Drive.
+
 (4) ElasticSearch connection for data visualisation.
 
 User tweets
