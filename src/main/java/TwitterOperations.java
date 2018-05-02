@@ -18,17 +18,17 @@ public class TwitterOperations {
         /**
          * Get the public live feed stream and upload the data extracted to ElasticSearch
          */
-        SampleStream sampleStream = new SampleStream("twitter_may2_2", "tweet", "en");
+        SampleStream sampleStream = new SampleStream("ES_index_name", "ES_type", "lang_code");
         // sampleStream.samplingStream("en");
 
         FilteredStream filteredStream = new FilteredStream();
-        filteredStream.filtering("trump");
+        // filteredStream.filtering("keyword");
 
         /**
          * Search for specific keywords (no ES upload included)
          */
         Search keyword = new Search();
-        // keyword.searchKeyword("trump");
+        // keyword.searchKeyword("keyword");
 
         /**
          * Posting individual tweets and bulk from a file
