@@ -101,24 +101,6 @@ public class GoogleDrive {
         Drive.Files.Insert insert = drive.files().insert(fileMetadata, mediaContent);
         MediaHttpUploader uploader = insert.getMediaHttpUploader();
         uploader.setDirectUploadEnabled(useDirectUpload);
-        uploader.setProgressListener(new FileUploadProgressListener());
         return insert.execute();
     }
-
-    private void downloadFile(boolean useDirectDownload, File uploadedFile)
-            throws IOException {
-        // create parent directory (if necessary)
-        java.io.File parentDir = new java.io.File(DIR_FOR_DOWNLOADS);
-        if (!parentDir.exists() && !parentDir.mkdirs()) {
-            throw new IOException("Unable to create parent directory");
-        }
-        OutputStream out = new FileOutputStream(new java.io.File(parentDir, uploadedFile.getTitle()));
-
-        MediaHttpDownloader downloader =
-                new MediaHttpDownloader(httpTransport, drive.getRequestFactory().getInitializer());
-        downloader.setDirectDownloadEnabled(useDirectDownload);
-        downloader.setProgressListener(new FileDownloadProgressListener());
-        downloader.download(new GenericUrl(uploadedFile.getDownloadUrl()), out);
-    }
-
 }

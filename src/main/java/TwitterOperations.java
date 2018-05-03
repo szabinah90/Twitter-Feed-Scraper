@@ -21,6 +21,10 @@ public class TwitterOperations {
         SampleStream sampleStream = new SampleStream("ES_index_name", "ES_type", "lang_code");
         // sampleStream.samplingStream("en");
 
+
+        /**
+         * Get a filtered stream and upload images to Google drive
+         */
         FilteredStream filteredStream = new FilteredStream();
         // filteredStream.filtering("keyword");
 
