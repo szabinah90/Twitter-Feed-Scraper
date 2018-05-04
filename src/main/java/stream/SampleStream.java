@@ -1,7 +1,6 @@
 package stream;
 
-import credentials.Credentials;
-import credentials.ParseCredentials;
+import credentials.MyConfigurationBuilder;
 import elasticConnector.MyElasticConnector;
 import readTextFiles.ReadTextFiles;
 import twitter4j.*;
@@ -23,16 +22,8 @@ public class SampleStream {
     public void samplingStream(String languageCode) {
         ReadTextFiles reader = new ReadTextFiles();
         List<String> spam = reader.readFromFile("./data/spam.txt");
-        ParseCredentials parser = new ParseCredentials();
-        Credentials credentials = parser.parsing();
-
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(credentials.getConsumerKey())
-                .setOAuthConsumerSecret(credentials.getConsumerSecret())
-                .setOAuthAccessToken(credentials.getAccessToken())
-                .setOAuthAccessTokenSecret(credentials.getAccessTokenSecret())
-                .setTweetModeExtended(true);
+        MyConfigurationBuilder builder = new MyConfigurationBuilder();
+        ConfigurationBuilder cb = builder.buildConfig();
 
         TwitterStream twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
         MyElasticConnector elasticConnector = new MyElasticConnector();

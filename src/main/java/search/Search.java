@@ -1,7 +1,6 @@
 package search;
 
-import credentials.Credentials;
-import credentials.ParseCredentials;
+import credentials.MyConfigurationBuilder;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -9,16 +8,8 @@ import java.util.List;
 
 public class Search {
     public void searchKeyword(String keyword) {
-        ParseCredentials parser = new ParseCredentials();
-        Credentials credentials = parser.parsing();
-
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(credentials.getConsumerKey())
-                .setOAuthConsumerSecret(credentials.getConsumerSecret())
-                .setOAuthAccessToken(credentials.getAccessToken())
-                .setOAuthAccessTokenSecret(credentials.getAccessTokenSecret())
-                .setTweetModeExtended(true);
+        MyConfigurationBuilder builder = new MyConfigurationBuilder();
+        ConfigurationBuilder cb = builder.buildConfig();
 
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();

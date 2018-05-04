@@ -1,11 +1,10 @@
 package feed;
 
-import credentials.Credentials;
-import credentials.ParseCredentials;
+import credentials.MyConfigurationBuilder;
 import elasticConnector.MyElasticConnector;
-import readTextFiles.ReadTextFiles;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,16 +42,8 @@ public class GetFeed {
 
 
     public void gettingFeed() {
-        ParseCredentials parser = new ParseCredentials();
-        Credentials credentials = parser.parsing();
-
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(credentials.getConsumerKey())
-                .setOAuthConsumerSecret(credentials.getConsumerSecret())
-                .setOAuthAccessToken(credentials.getAccessToken())
-                .setOAuthAccessTokenSecret(credentials.getAccessTokenSecret())
-                .setTweetModeExtended(true);
+        MyConfigurationBuilder builder = new MyConfigurationBuilder();
+        ConfigurationBuilder cb = builder.buildConfig();
 
         MyElasticConnector elasticConnector = new MyElasticConnector();
 

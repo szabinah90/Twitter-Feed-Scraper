@@ -38,7 +38,7 @@ public class TwitterOperations {
          * Posting individual tweets and bulk from a file
          */
         PostATweet sampleTweet = new PostATweet();
-        // sampleTweet.posting("Automated tweet from JAVA app");
+        sampleTweet.posting("Automated tweet from JAVA app");
 
         BulkTweet sampleBulk = new BulkTweet();
         // sampleBulk.bulkPosting();

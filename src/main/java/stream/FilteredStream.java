@@ -2,6 +2,7 @@ package stream;
 
 import com.google.api.client.util.Preconditions;
 import credentials.Credentials;
+import credentials.MyConfigurationBuilder;
 import credentials.ParseCredentials;
 import googledrive.DownloadPictures;
 import googledrive.GoogleDrive;
@@ -11,16 +12,8 @@ import twitter4j.conf.ConfigurationBuilder;
 public class FilteredStream {
 
     public void filtering(String filter) {
-        ParseCredentials parser = new ParseCredentials();
-        Credentials credentials = parser.parsing();
-
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(credentials.getConsumerKey())
-                .setOAuthConsumerSecret(credentials.getConsumerSecret())
-                .setOAuthAccessToken(credentials.getAccessToken())
-                .setOAuthAccessTokenSecret(credentials.getAccessTokenSecret())
-                .setTweetModeExtended(true);
+        MyConfigurationBuilder builder = new MyConfigurationBuilder();
+        ConfigurationBuilder cb = builder.buildConfig();
 
         TwitterStream twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
 
