@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ReadTextFiles {
 
-    public List<String> readFromFile(String filename) {
+    public List<String> readSpam(String filename) {
 
         BufferedReader reader = null;
         List<String> spamWords = new ArrayList<>();
@@ -37,5 +37,31 @@ public class ReadTextFiles {
 
     public boolean stringContainsItemFromList(String inputStr, List<String> items) {
         return items.parallelStream().anyMatch(inputStr::contains);
+    }
+
+    public String readFromFile(String filename) {
+
+        StringBuilder results = new StringBuilder();
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(new java.io.File(filename))); // if you have an existing file, "new java.io" is omitted
+            String line = null;
+
+            while ((line = reader.readLine()) != null) {
+                results.append(line).append("\n");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException | NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+        return results.toString();
     }
 }

@@ -1,5 +1,5 @@
 {
-  "doc": {
+  "tweet": {
     "properties": {
       "created_at": {
         "type": "date"
@@ -8,7 +8,7 @@
         "type": "text"
       },
       "text": {
-        "type": "text"
+        "type": "keyword"
       },
       "hashtags": {
         "type": "keyword"
@@ -17,10 +17,10 @@
         "type": "keyword"
       },
       "username": {
-        "type": "text"
+        "type": "keyword"
       }
       "location": {
-        "type": "text"
+        "type": "keyword"
       }
     }
   }

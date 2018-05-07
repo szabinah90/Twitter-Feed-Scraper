@@ -13,30 +13,26 @@ public class GetFeed {
     private int numberOfTweets;
     private boolean isAll;
     private String indexName;
-    private String type;
 
     /**
      * @param isAll: if you want the max number of twets (about 3200) from a user's timeline, set this parameter to true,
      *             and use the first constructor. Otherwise, set it to false and give the @numberOfTweets parameter (use the second constructor).
      * @param username: desired username
      * @param indexName: index name you wish to use on ElasticSearch
-     * @param type: doc type you wish to use on ElasticSearch
      */
-    public GetFeed(boolean isAll, String username, String indexName, String type) {
+    public GetFeed(boolean isAll, String username, String indexName) {
         this.username = username;
         this.numberOfTweets = 0;
         this.isAll = isAll;
         this.indexName = indexName;
-        this.type = type;
     }
 
-    public GetFeed(boolean isAll, int numberOfTweets, String username, String indexName, String type) {
+    public GetFeed(boolean isAll, int numberOfTweets, String username, String indexName) {
         this.numberOfTweets = numberOfTweets;
         this.username = username;
         this.numberOfTweets = numberOfTweets;
         this.isAll = isAll;
         this.indexName = indexName;
-        this.type = type;
     }
 
 
@@ -47,7 +43,7 @@ public class GetFeed {
 
         MyElasticConnector elasticConnector = new MyElasticConnector();
 
-        elasticConnector.createIndex(indexName, type);
+        elasticConnector.createIndex(indexName);
 
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter1 = tf.getInstance();
@@ -80,7 +76,7 @@ public class GetFeed {
             for (Status status : statuses) {
                 System.out.println("[" + counter + "] " + status.getCreatedAt() + " @" + status.getUser().getScreenName() + " - " + status.getText());
                 counter++;
-                elasticConnector.uploadingDocuments(status, indexName, type);
+                elasticConnector.uploadingDocuments(status, indexName);
             }
         } catch (TwitterException te) {
             te.printStackTrace();

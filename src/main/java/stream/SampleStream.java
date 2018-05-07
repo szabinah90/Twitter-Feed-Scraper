@@ -10,25 +10,23 @@ import java.util.List;
 
 public class SampleStream {
     private String indexName;
-    private String type;
     private String languageCode;
 
-    public SampleStream(String indexName, String type, String languageCode) {
+    public SampleStream(String indexName, String languageCode) {
         this.indexName = indexName;
-        this.type = type;
         this.languageCode = languageCode;
     }
 
     public void samplingStream(String languageCode) {
         ReadTextFiles reader = new ReadTextFiles();
-        List<String> spam = reader.readFromFile("./data/spam.txt");
+        List<String> spam = reader.readSpam("./data/spam.txt");
         MyConfigurationBuilder builder = new MyConfigurationBuilder();
         ConfigurationBuilder cb = builder.buildConfig();
 
         TwitterStream twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
         MyElasticConnector elasticConnector = new MyElasticConnector();
 
-        elasticConnector.createIndex(indexName, type);
+        elasticConnector.createIndex(indexName);
 
         twitterStream.addListener(new StatusListener() {
             int counter = 1;
@@ -37,7 +35,7 @@ public class SampleStream {
                 if (reader.stringContainsItemFromList(status.getText(), spam)) {
                     System.out.println("SPAM");
                 } else {
-                    elasticConnector.uploadingDocuments(status, indexName, type);
+                    elasticConnector.uploadingDocuments(status, indexName);
                     System.out.println("[" + counter + "] " + status.getCreatedAt() + ": @" + status.getUser().getScreenName() + " - " + status.getText() + "location: " + status.getUser().getLocation());
                     counter++;
                 }

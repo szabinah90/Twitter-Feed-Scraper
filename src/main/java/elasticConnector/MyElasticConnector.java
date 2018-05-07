@@ -6,6 +6,7 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
+import readTextFiles.ReadTextFiles;
 import twitter4j.HashtagEntity;
 import twitter4j.Status;
 
@@ -19,7 +20,9 @@ public class MyElasticConnector {
     public MyElasticConnector() {
     }
 
-    public void createIndex(String indexName, String type) {
+    public void createIndex(String indexName) {
+        ReadTextFiles fileReader = new ReadTextFiles();
+
         RestHighLevelClient client = null;
         CreateIndexRequest request = null;
         client = new RestHighLevelClient(
@@ -27,18 +30,19 @@ public class MyElasticConnector {
                         new HttpHost("localhost", 9200, "http")));
 
         request = new CreateIndexRequest(indexName);
-        request.mapping(type, PATH, XContentType.JSON);
+        String mappingFile = fileReader.readFromFile(PATH);
+        request.mapping("tweet", mappingFile, XContentType.JSON);
 
         System.out.println("Index created.");
     }
 
-    public void uploadingDocuments(Status status, String indexName, String type) {
+    public void uploadingDocuments(Status status, String indexName) {
         RestHighLevelClient client = null;
         client = new RestHighLevelClient(
                 RestClient.builder(
                         new HttpHost("localhost", 9200, "http")));
 
-        IndexRequest request = new IndexRequest(indexName, type);
+        IndexRequest request = new IndexRequest(indexName, "tweet");
 
         HashMap<String, String> hashtags = new HashMap<>();
         for (HashtagEntity hashtag : status.getHashtagEntities()) {
