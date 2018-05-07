@@ -18,8 +18,8 @@ public class TwitterOperations {
         /**
          * Get the public live feed stream and upload the data extracted to ElasticSearch
          */
-        SampleStream sampleStream = new SampleStream("ES_index", "language_code");
-        // sampleStream.samplingStream("en");
+        SampleStream sampleStream = new SampleStream("twitter_07may", "en");
+        sampleStream.samplingStream("en");
 
 
         /**

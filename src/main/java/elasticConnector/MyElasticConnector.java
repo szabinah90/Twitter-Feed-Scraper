@@ -33,6 +33,12 @@ public class MyElasticConnector {
         String mappingFile = fileReader.readFromFile(PATH);
         request.mapping("tweet", mappingFile, XContentType.JSON);
 
+        try {
+            client.indices().create(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         System.out.println("Index created.");
     }
 
@@ -44,16 +50,10 @@ public class MyElasticConnector {
 
         IndexRequest request = new IndexRequest(indexName, "tweet");
 
-        HashMap<String, String> hashtags = new HashMap<>();
-        for (HashtagEntity hashtag : status.getHashtagEntities()) {
-            hashtags.put("hashtags", hashtag.getText());
-        }
-
         HashMap<String, Object> outerMap = new HashMap<>();
         outerMap.put("created_at", status.getCreatedAt());
         outerMap.put("tweet_id", String.valueOf(status.getId()));
         outerMap.put("text", status.getText());
-        outerMap.put("hashtags", hashtags);
         outerMap.put("screen_name", status.getUser().getScreenName());
         outerMap.put("username", status.getUser().getName());
         outerMap.put("location", status.getUser().getLocation());
